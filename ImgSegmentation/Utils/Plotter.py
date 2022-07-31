@@ -53,5 +53,5 @@ class Plotter():
         else :
             plt.savefig(self.outputdir+"/Test_"+str(time.time())+".jpg")
 if __name__ == "__main__":
-    pl=Plotter()
+    pl=Plotter("../outputs","../logs/log_loss.csv","../logs/loss_plot.png","../outputs/validation.jpg","gray")
     pl.loss_live_plotter()

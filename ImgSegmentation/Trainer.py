@@ -40,6 +40,7 @@ def train():
                 sample=next(iter(valdataloader))
                 sample_output=model.test(sample[0].to(config.DEVICE))
                 plotter.im_plot(sample_output.squeeze(0).permute(1,2,0).cpu().detach().numpy(),False)
+                plotter.loss_plotter()
     except KeyboardInterrupt:
         print("Epoch: {}, Iteration: {}, Loss: {}".format(epoch, i, loss.item()))
         torch.save(model.state_dict(),config.MODEL_LOG_PATH+ "/model_{}.pth".format(epoch))
