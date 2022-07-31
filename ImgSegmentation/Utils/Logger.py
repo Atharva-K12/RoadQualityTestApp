@@ -6,6 +6,9 @@ class Logger():
         self.loss_plot_path=loss_plot_path
         try:
             os.mkdir(log_dir)
+        except FileExistsError:
+            pass
+        try:
             os.mkdir(log_dir+"/model")
         except FileExistsError:
             pass

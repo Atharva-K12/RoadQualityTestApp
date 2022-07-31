@@ -2,7 +2,6 @@ from Utils import DataLoader,Logger,Plotter
 from Models import SegModel
 import config
 import torch
-import numpy as np
 from tqdm import tqdm
 
 
@@ -35,9 +34,12 @@ def train():
                     plotter.im_plot(sample_output.squeeze(0).permute(1,2,0).cpu().detach().numpy())
                 tqdm_minibatch.set_description(f'Iter: {i} Loss: {loss.item()}')
                 epoch_last_loss=loss.item()
-            tqdm_epoch.set_description(f'Epoch:{epoch} Loss:{loss.item()}')
+            tqdm_epoch.set_description(f'Epoch:{epoch} Loss:{epoch_last_loss.item()}')
             if epoch % config.SAVE_EVERY == 0:
                 torch.save(model.state_dict(),config.MODEL_LOG_PATH+ "/model_{}.pth".format(epoch))
+                sample=next(iter(valdataloader))
+                sample_output=model.test(sample[0].to(config.DEVICE))
+                plotter.im_plot(sample_output.squeeze(0).permute(1,2,0).cpu().detach().numpy(),False)
     except KeyboardInterrupt:
         print("Epoch: {}, Iteration: {}, Loss: {}".format(epoch, i, loss.item()))
         torch.save(model.state_dict(),config.MODEL_LOG_PATH+ "/model_{}.pth".format(epoch))
