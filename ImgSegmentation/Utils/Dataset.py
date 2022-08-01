@@ -24,7 +24,7 @@ class RTKDataset(Dataset):
 
     def __getitem__(self, index):
         img_path = os.path.join(self.image_dir, self.images[index])
-        mask_path = os.path.join(self.mask_dir, self.images[index])#.replace(".png", "GT.png"))
+        mask_path = os.path.join(self.mask_dir, self.images[index].replace(".png", "GT.png"))
         image=self.transform(Image.open(img_path))
         mask=self.transform(Image.open(mask_path))
         # image = np.array(Image.open(img_path).convert("RGB"))
@@ -35,10 +35,12 @@ class RTKDataset(Dataset):
 
 if __name__ == "__main__":
     image_dir = "../../../RTK_SemanticSegmentationGT_originalFrames"
-    mask_dir = "../../../RTK_SemanticSegmentationGT_NoColorMapMasks/RTK_SemanticSegmentationGT_NoColorMapMasks"
+    mask_dir = "../../../RTK_SemanticSegmentationGT_coloredMasks"
     dataset = RTKDataset(image_dir, mask_dir)
+    print(dataset[0][0].size())
+    print(dataset[0][1].size())
     plt.imshow(dataset[0][0].permute(1, 2, 0))
     plt.show()
-    plt.imshow(dataset[0][1].permute(1,2,0), cmap="gray")
+    plt.imshow(dataset[0][1].permute(1,2,0),cmap="gist_rainbow")
     plt.show()
     # print(dataset[0][1])

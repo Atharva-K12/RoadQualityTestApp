@@ -14,6 +14,7 @@ class Plotter():
         self.loss_plot_path=loss_plot_path
         self.validation_output_path=validation_output_path
         self.outputcmap=outputcmap
+        self.t=time.time()
 
     def loss_plotter(self):
         data =pd.read_csv(self.loss_log_path)
@@ -31,7 +32,7 @@ class Plotter():
             plt.cla()
             plt.title("Loss")
             for losses in list(data.columns.values.tolist()):
-                plt.plot(data[losses],label=str(losses))
+                plt.plot(data[losses][len(data[losses])-100:],label=str(losses))
             plt.xlabel("iterations")
             plt.ylabel("Loss")
             plt.legend()
@@ -46,12 +47,13 @@ class Plotter():
         ani=FuncAnimation(plt.gcf(),_animation)
         plt.show()
     def im_plot(self,image,val=True):
+        plt.figure(figsize=(10,5))
         plt.imshow(image,cmap=self.outputcmap)
         plt.axis('off')
         if val:
             plt.savefig(self.validation_output_path)
         else :
-            plt.savefig(self.outputdir+"/Test_"+str(time.time())+".jpg")
+            plt.savefig(self.outputdir+"/Test_"+str(time.time()-self.t)+".jpg")
 if __name__ == "__main__":
     pl=Plotter("../outputs","../logs/log_loss.csv","../logs/loss_plot.png","../outputs/validation.jpg","gray")
     pl.loss_live_plotter()
