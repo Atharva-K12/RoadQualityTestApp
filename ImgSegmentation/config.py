@@ -10,14 +10,23 @@ IMG_DIR = "../../RTK_SemanticSegmentationGT_originalFrames"
 MASK_DIR= "../../RTK_SemanticSegmentationGT_coloredMasks"
 DATASET='RTK'
 
-BATCHSIZE=4
-SHUFFLE=True
-NUM_WORKERS=2
 
-EPOCHS=1
+# UNet
+# NestedUNet
+# R2U_Net
+# AttU_Net
+# R2AttU_Net          
+        
+MODEL = "R2U_Net"
+
+BATCHSIZE=5
+SHUFFLE=True
+NUM_WORKERS=3
+
+EPOCHS=5
 SAVE_EVERY=1
 SAMPLE_EVERY=10
-LR=0.001
+LR=0.0001
 
 OPTIMIZER='Adam'
 LOSS='MSE'
