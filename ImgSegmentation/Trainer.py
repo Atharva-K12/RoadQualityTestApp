@@ -40,7 +40,8 @@ def train():
                     # print(sample[0].shape)
                     sample_output=model.test(sample[0].to(config.DEVICE))
                     # print(sample_output[0].squeeze(0).shape)
-                    plotter.im_plot(sample_output[0].permute(1,2,0).cpu().detach().numpy())
+                    # plotter.im_plot(sample_output[0].permute(1,2,0).cpu().detach().numpy())
+                    plotter.im_plot(sample_output[0],sample[0][0])
                 tqdm_minibatch.set_description(f'Iter: {i} Loss: {loss.item()}')
                 epoch_last_loss=loss.item()
             
@@ -58,7 +59,8 @@ def train():
                 logger.lossLog(log_dict)
                 sample=next(iter(valdataloader))
                 sample_output=model.test(sample[0].to(config.DEVICE))
-                plotter.im_plot(sample_output[0].permute(1,2,0).cpu().detach().numpy(),False)
+                plotter.im_plot(sample_output[0],sample[0][0],False)
+                # plotter.im_plot(sample_output[0].permute(1,2,0).cpu().detach().numpy(),False)
                 plotter.loss_plotter()
             tqdm_epoch.set_description(f'Epoch:{epoch} Loss:{epoch_last_loss} Acc:{accuracy}')
     except KeyboardInterrupt:

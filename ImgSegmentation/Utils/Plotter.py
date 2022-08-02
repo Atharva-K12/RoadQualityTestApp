@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import time
+from torchvision.utils import save_image
 class Plotter():
     def __init__(self,outputdir,loss_log_path,loss_plot_path,validation_output_path,outputcmap):
         try:
@@ -45,15 +46,23 @@ class Plotter():
             plt.axis('off')
         ani=FuncAnimation(plt.gcf(),_animation)
         plt.show()
-    def im_plot(self,image,val=True):
+    def im_plot(self,image,image2,val=True):
         plt.figure(figsize=(10,5))
-        plt.imshow(image,cmap=self.outputcmap)
+        plt.subplot(1,2,1)
+        plt.imshow(image.permute(1,2,0).cpu().detach().numpy(),cmap=self.outputcmap)
+        plt.subplot(1,2,2)
+        plt.imshow(image2.permute(1,2,0).cpu().detach().numpy(),cmap=self.outputcmap)
         plt.axis('off')
+        t=time.time()
         if val:
-            plt.savefig(self.validation_output_path)
+            plt.savefig(self.validation_output_path+"_"+str(t)+".jpg")
         else :
-            plt.savefig(self.outputdir+"/Test_"+str(time.time())+".jpg")
+            plt.savefig(self.outputdir+"/Test_P"+str(t)+".jpg")
         plt.clf()
+        if val:
+            save_image(image,self.validation_output_path)
+        else :
+            save_image(image,self.outputdir+"/Test_"+str(t)+".jpg")
 if __name__ == "__main__":
-    pl=Plotter("../outputs","../logs/log_loss.csv","../logs/loss_plot.png","../outputs/validation.jpg","gray")
+    pl=Plotter("../../../outputs","../../../logs/log_loss.csv","../../../logs/loss_plot.png","../../../outputs/validation.jpg","gray")
     pl.loss_live_plotter()
