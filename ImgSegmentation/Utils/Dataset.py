@@ -32,7 +32,9 @@ class RTKDataset(Dataset):
         mask=self.transform(Image.open(mask_path))
         # image = np.array(Image.open(img_path).convert("RGB"))
         # mask = np.array(Image.open(mask_path).convert("L"), dtype=np.float32)
-        mask*= 50.0
+        mask*= 10.0
+        median_filter_size = 5
+        #Padding
         return image, mask#,maskorg
 
 
