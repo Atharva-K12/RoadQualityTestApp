@@ -52,7 +52,7 @@ def sendEmail(emailAddr : emailAddrSchema):
     for email in emailAddr.emailIdList:
         
         receiver_email = email
-        password ="Meghshy@m29"
+        password =""
         message = """\
         Subject: Hi there
         Im sending an email through python code."""
