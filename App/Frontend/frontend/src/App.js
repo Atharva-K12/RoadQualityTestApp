@@ -1,23 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
+import {Routes, Route, BrowserRouter as Router} from 'react-router-dom';
+import {Input, Navbar} from './Components';
 
 function App() {
+  const location = "http://127.0.0.1:8000";
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <Input />
     </div>
   );
 }
