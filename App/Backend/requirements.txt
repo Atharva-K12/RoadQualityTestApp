@@ -3,5 +3,5 @@ uvicorn
 python-multipart
 # shutil
 pydantic
-smtplib 
-ssl
+# smtplib 
+# ssl
