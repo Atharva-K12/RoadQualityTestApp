@@ -17,12 +17,14 @@ export default function Input(props) {
 
     const[video,setVideo] = useState();
     const handleVideo = (e) =>{
-
+        localStorage.setItem('video',e.target.value);
+        setVideo(e.target.value);
     }
 
     const[gprData,setGprData] = useState();
     const handleFile = (e) =>{
-
+        localStorage.setItem('GPR-data',e.target.value);
+        setGprData(e.target.value);
     }
 
     const onSubmit = () =>{
@@ -98,15 +100,18 @@ export default function Input(props) {
                             <p className='label-p'>Upload GPR data file <span style={spanStyle}>*</span></p>
                             <div className='buttons'>
                                 <label className='label-file-upload' htmlFor='input-file'>
-                                    <input type='file' id='input-file' accept='.mp4' multiple={false} onChange={handleFile}/>
+                                    <input type='file' id='input-file' accept='.csv' multiple={false} onChange={handleFile}/>
                                 </label>
                             </div>
                         </form>
                     </div>
                 </div>
+                <div className='video-preview'>
+
+                </div>
             </div>
             <div className='Input-preview'>
-                
+
             </div>
         </div>
     )
