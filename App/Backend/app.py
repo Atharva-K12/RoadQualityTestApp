@@ -1,11 +1,24 @@
 from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
 
-from Schemas import InputSchema,emailAddrSchema
+from Schemas import InputSchema#,emailAddrSchema
 app=FastAPI()
 
-cwdPath = "D:\Sandisk Docs\VNIT ACAD\sih\RoadQualityTestApp\App\Backend\SavedDirectoryResults\Trash"
+origins = [
+    "http://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+cwdPath = ".\SavedDirectoryResults\Trash"
 
 @app.get("/")
 def landingPage(): return {"message": "Hello World"}
@@ -23,7 +36,7 @@ def inputVideo(file : UploadFile):
 @app.post("/MakeDirectory")
 def makeDirectory(dirName: str ,inputData:InputSchema):
     
-    cwdPath ="D:\Sandisk Docs\VNIT ACAD\sih\RoadQualityTestApp\App\Backend\SavedDirectoryResults"
+    cwdPath =".\SavedDirectoryResults"
     cwdPath = os.path.join(cwdPath,dirName)
     try:
         os.mkdir(cwdPath)
@@ -43,27 +56,27 @@ def executeScript():
 
 
 
-@app.post("/sendEmail") #has error
-def sendEmail(emailAddr : emailAddrSchema):
-    import smtplib, ssl
-    port = 587  # For starttls
-    smtp_server = "smtp.gmail.com"
-    sender_email = "dadwait51@gmail.com"
-    for email in emailAddr.emailIdList:
-        
-        receiver_email = email
-        password =""
-        message = """\
-        Subject: Hi there
-        Im sending an email through python code."""
-        context = ssl.create_default_context()
-        with smtplib.SMTP(smtp_server, port) as server:
-            server.ehlo() 
-            server.starttls(context=context)
-            server.ehlo() 
-            server.login(sender_email, password)
-            server.sendmail(sender_email, receiver_email, message)
+# @app.post("/sendEmail") #has error
+# def sendEmail(emailAddr : emailAddrSchema):
+#     import smtplib, ssl
+#     port = 587  # For starttls
+#     smtp_server = "smtp.gmail.com"
+#     sender_email = "dadwait51@gmail.com"
+#     for email in emailAddr.emailIdList:
+
+#         receiver_email = email
+#         password =""
+#         message = """\
+#         Subject: Hi there
+#         Im sending an email through python code."""
+#         context = ssl.create_default_context()
+#         with smtplib.SMTP(smtp_server, port) as server:
+#             server.ehlo() 
+#             server.starttls(context=context)
+#             server.ehlo() 
+#             server.login(sender_email, password)
+#             server.sendmail(sender_email, receiver_email, message)
             
-    return{"message":"Email sent"} 
+#     return{"message":"Email sent"} 
 
 

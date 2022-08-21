@@ -14,7 +14,7 @@ export default function Navbar() {
                             <a href='/'>Home</a>
                         </div>
                         <div className='Links'>
-                            <a href='/New-Record'>Start new record</a>
+                            <a href='/New-Record'>Create new record</a>
                         </div>
                         <div className='Links'>
                             <a href='/Saved'>Saved records</a>

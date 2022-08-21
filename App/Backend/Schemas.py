@@ -3,5 +3,5 @@ from pydantic import BaseModel
 class InputSchema(BaseModel):
     filename : str
     
-class emailAddrSchema(BaseModel):
-    emailIdList :list[str]
+# class emailAddrSchema(BaseModel):
+    # emailIdList :list[str]
