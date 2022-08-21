@@ -1,0 +1,24 @@
+CHECKLIST : 
+
+Video Side
+1) Drone video loading
+2) Video to Frames
+3) Frames passing to model
+4) Model tuning (use flenz)
+5) Model output interpretation
+6) Model data to webpage/app
+7) Webpage Display(Frontend)
+8) Data interpretation(figure out how)
+9) Report Generation and mailing
+
+Sensor side
+1) Sensor data loading
+2) Sensor data analysis
+3) Sensor data to webpage/app
+4) Webpage Display(Frontend)
+5) Data interpretation(figure out how)
+6) Report Generation and mailing
+
+
+Drone 
+1) Atleast one flight video for presentation
