@@ -16,7 +16,9 @@ from email import encoders
 
 
 app=FastAPI()
+global cwdPath
 
+# pwdPath="./SavedDirectoryResults"
 origins = [
     "http://localhost:3000"
 ]
@@ -29,29 +31,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-cwdPath = ".\SavedDirectoryResults\Trash"
+cwdPath = ".\SavedDirectoryResults"
 
 @app.get("/")
 def landingPage(): return {"message": "Hello World"}
 
-
-@app.post("/InputVideo")
-def inputVideo(file : UploadFile): 
-    
-    # with open("test.mp4","wb") as buffer:
-    #     shutil.copyfileobj(file.file, buffer)
-    os.path.join(cwdPath,file.filename)
-    return {"filename": file.filename}
-
-@app.post("/InputGPRData")
-def inputGPRData(file : UploadFile):
-    os.path.join(cwdPath,file.filename)
-    return {"filename": file.filename}
-
-
 @app.post("/MakeDirectory")
-def makeDirectory(dirName: str ,inputData:InputSchema):
-    
+def makeDirectory(dirName: str):
+    global cwdPath
     cwdPath =".\SavedDirectoryResults"
     cwdPath = os.path.join(cwdPath,dirName)
     try:
@@ -59,7 +46,27 @@ def makeDirectory(dirName: str ,inputData:InputSchema):
         print(cwdPath)
     except OSError:
         return{"message":"Directory already exists"}
-    return {"message":"Directory created","path":inputData.filename}
+    return {"message":"Directory created"}
+
+@app.post("/InputVideo")
+async def inputVideo(file : UploadFile): 
+    
+    filename1 = os.path.join(cwdPath, file.filename)
+    with open(filename1,"wb") as BufferWriter:
+        shutil.copyfileobj(file.file, BufferWriter)
+    return {"message":"Video uploaded"}
+
+@app.post("/InputGPRData")
+def inputGPRData(file : UploadFile):
+    filename1 = os.path.join(cwdPath, file.filename)
+    with open(filename1,"wb") as BufferWriter:
+        shutil.copyfileobj(file.file, BufferWriter)
+    return {"message":"File uploaded"}
+    # os.path.join(cwdPath,file.filename)
+    # return {"filename": file.filename}
+
+
+
 
 
 @app.post("/executeScript")
