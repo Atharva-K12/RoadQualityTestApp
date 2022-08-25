@@ -51,34 +51,20 @@ def makeDirectory(dirName: str):
 @app.post("/InputVideo")
 async def inputVideo(file : UploadFile): 
     
-    filename1 = os.path.join(cwdPath, file.filename)
+    filename1 = os.path.join(cwdPath, "InputVideo.mp4")
     with open(filename1,"wb") as BufferWriter:
         shutil.copyfileobj(file.file, BufferWriter)
     return {"message":"Video uploaded"}
 
 @app.post("/InputGPRData")
 def inputGPRData(file : UploadFile):
-    filename1 = os.path.join(cwdPath, file.filename)
-    with open(filename1,"wb") as BufferWriter:
+    global fnameGPR
+    fnameGPR = file.filename
+    cwdPath = "./SavedDirectoryResults/ad4"
+    filename2 = os.path.join(cwdPath, "InputGPR.csv")
+    with open(filename2,"wb") as BufferWriter:
         shutil.copyfileobj(file.file, BufferWriter)
     return {"message":"File uploaded"}
-    # os.path.join(cwdPath,file.filename)
-    # return {"filename": file.filename}
-
-
-
-
-
-@app.post("/executeScript")
-def executeScript(): 
-    
-    # input to model wrapper func()\
-    # output from model wrapper func()
-    
-    #save output data into SavedDirectoryResults
-    return{"message":"Script executed , output data saved"}
-
-
 
 @app.post("/sendEmail")
 def sendEmail(emailAddr : emailAddrSchema ):
@@ -89,68 +75,23 @@ def sendEmail(emailAddr : emailAddrSchema ):
     password ="Adw@it1191"
     receiver_email = "dadwait51@gmail.com"
     
-    # for email in emailAddr.emailIdList:
-
-        
-    #     print(receiver_email)
-    # #     message ="""From: adeshpande@students.vnit.ac.in
-    # #                 To: xyz@gmail.com
-    # #                 Subject: Send mail from python!!
-
-    # # """
-    # #     body = "Hi guys,\nThis is a test email.\n Thank you."
-    # #     message += body
-    file = "./SavedDirectoryResults/0.txt"
-    #     fo = open(file, "rb")
-    #     filecontent = fo.read()
-    #     encodedcontent = base64.b64encode(filecontent)  # base64
-    #     # encodedcontent = file
-
-    #     # sender = 'adeshpande@students.vnit.ac.in'
-    #     # reciever = 'dadwait51@gmail.com'
-
-    #     marker = "AUNIQUEMARKER"
-
-    #     body ="""
-    #     This is a test email to send an attachement.
-    #     """
-    #     # Define the main headers.
-    #     part1 = """From: From Person <adeshpande@students.vnit.ac.in>
-    #     To: To Person <dadwait51@gmail.com>
-    #     Subject: Sending Attachement
-    #     MIME-Version: 1.0
-    #     Content-Type: multipart/mixed; boundary=%s
-    #     --%s
-    #     """ % (marker, marker)
-
-    #     # Define the message action
-    #     part2 = """Content-Type: text/plain
-    #     Content-Transfer-Encoding:8bit
-
-    #     %s
-    #     --%s
-    #     """ % (body,marker)
-
-    #     # Define the attachment section
-    #     part3 = """Content-Type: multipart/mixed; name=\"%s\"
-    #     Content-Transfer-Encoding:base64
-    #     Content-Disposition: attachment; filename=%s
-
-    #     %s
-    #     --%s--
-    #     """ %(file, file, encodedcontent, marker)
-    #     message = part1 + part2 + part3
+    # OpVideofile =cwdPath +".\Output\OutputVideo.mp4"
+    # OpReportFile = cwdPath +".\Output\OutputReport.pdf"
+    OpVideofile = os.path.join(cwdPath, "InputVideo.mp4")
+    OpReportFile = os.path.join(cwdPath, "InputGPR.csv")
+    
     
    
 
     files=[]
-    files.append(file)
+    files.append(OpVideofile)
+    files.append(OpReportFile)
     
     msg = MIMEMultipart()
     msg['From'] = sender_email
-    msg['To'] = COMMASPACE.join(receiver_email)
+    msg['To'] = receiver_email
     msg['Date'] = formatdate(localtime=True)
-    msg['Subject'] = "subject test"
+    msg['Subject'] = "Road Quality Test Report"
 
     msg.attach(MIMEText(" body text"))
 
@@ -173,5 +114,37 @@ def sendEmail(emailAddr : emailAddrSchema ):
         server.sendmail(sender_email, receiver_email, msg.as_string())
             
     return{"message":"Email sent"} 
+
+def GeneratePdf():
+    from fpdf import FPDF
+
+    pdf = FPDF()
+
+    pdf.add_page()
+
+    pdf.set_font("Arial", size = 15)
+
+    pdf.cell(200, 10, txt = "GeeksforGeeks",
+		ln = 1, align = 'C')
+    pdf.cell(200, 10, txt = "A Computer Science portal for geeks.",
+		ln = 2, align = 'C')
+    print(cwdPath)
+    pdf.output("Report1.pdf",".\SavedDirectoryResults")
+    # filename1 = os.path.join(cwdPath, "Report.pdf")
+    # with open(filename1,"wb") as BufferWriter:
+    #     shutil.copyfileobj(pdf, BufferWriter)
+    return 1
+    
+@app.post("/executeScript")
+def executeScript(): 
+    
+    # input to model wrapper func()\
+    # output from model wrapper func()
+    x = GeneratePdf()
+    #save output data into SavedDirectoryResults
+    if(x==1):
+        return{"message":"Script executed , output data saved"}
+    return{"message":"Script execution failed"}
+
 
 
