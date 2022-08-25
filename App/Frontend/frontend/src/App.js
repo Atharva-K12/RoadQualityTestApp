@@ -1,6 +1,6 @@
 import './App.css';
 import {Routes, Route, BrowserRouter as Router} from 'react-router-dom';
-import {Input, Navbar} from './Components';
+import {Input, Navbar, Output} from './Components';
 
 function App() {
   const Backend_URL = "http://127.0.0.1:8000";
@@ -8,7 +8,8 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Input Backend_URL = {Backend_URL}/>
+      {/* <Input Backend_URL = {Backend_URL}/> */}
+      <Output />
     </div>
   );
 }
