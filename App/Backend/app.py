@@ -43,6 +43,11 @@ def inputVideo(file : UploadFile):
     os.path.join(cwdPath,file.filename)
     return {"filename": file.filename}
 
+@app.post("/InputGPRData")
+def inputGPRData(file : UploadFile):
+    os.path.join(cwdPath,file.filename)
+    return {"filename": file.filename}
+
 
 @app.post("/MakeDirectory")
 def makeDirectory(dirName: str ,inputData:InputSchema):
@@ -51,6 +56,7 @@ def makeDirectory(dirName: str ,inputData:InputSchema):
     cwdPath = os.path.join(cwdPath,dirName)
     try:
         os.mkdir(cwdPath)
+        print(cwdPath)
     except OSError:
         return{"message":"Directory already exists"}
     return {"message":"Directory created","path":inputData.filename}
