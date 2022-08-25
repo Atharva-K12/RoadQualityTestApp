@@ -53,12 +53,27 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding-bottom: 20px;
+    border-bottom: 1px;
+    border-style: none none dashed;
+    border-color: #111111;
+}
+
+.Input-preview{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.video-preview-class{
+    margin-bottom: 20px;
 }
 
 .Inputs{
     display: flex;
     align-items: center;
     flex-direction: row;
+    margin-bottom: 40px;
 }
 
 .video-upload{
